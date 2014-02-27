@@ -12,7 +12,7 @@ public final class HttpHeader {
   private final static String USER_AGENT = "User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:27.0) Gecko/20100101 Firefox/27.0";
  
   public String getRawHeaders(String hostname) throws IOException {
-	String output = new String("");        
+	String output = "";
 	Socket socket = null;
         PrintWriter writer = null;
         BufferedReader reader = null;
@@ -33,23 +33,28 @@ public final class HttpHeader {
                 if (line.isEmpty()) {
 			break; // Stop when headers are completed. We're not interested in all the HTML.
 		}
-		output.concat(line); 
+		//output.concat(line);
+                output += line + "\n";
                 //System.out.println(line);
             }
         } finally {
             if (reader != null) {
-		try { 
-			reader.close();
-		} catch (IOException logOrIgnore) { };
+            try {
+                reader.close();
+            } catch (IOException logOrIgnore) {
+                //TODO: add log4j error messages
+            }
 	    } 
             if (writer != null) {
-		writer.close();
-	    }
+                writer.close();
+            }
             if (socket != null) {
-		try {
-			socket.close();
-		} catch (IOException logOrIgnore) { };
-	    } 
+                try {
+                    socket.close();
+                } catch (IOException logOrIgnore) {
+                    //TODO: add log4j error messages
+                }
+            }
         }
 
 	return output;
