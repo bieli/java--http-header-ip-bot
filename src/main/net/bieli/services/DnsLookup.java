@@ -4,7 +4,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public final class DnsLookup {
-    public String getHostName(String ipAddress) throws UnknownHostException  {
+    public String getHostName(String ipAddress) throws UnknownHostException {
         String hostName = new String("");
 
         try {

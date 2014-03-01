@@ -9,30 +9,44 @@ public class IpBot {
     public static void main(String[] args) throws IOException {
         String ipAddress = "212.77.100.101";
 
-        System.out.println("rawHeaders: \n" + getRawHeaderByIpAddress(ipAddress));
+        if (args.length > 0) {
+            ipAddress = args[0];
+        }
+
+        System.out.println("rawHeaders: \n" + getRawHeaderByIpAddress(ipAddress, true, true));
     }
 
-    public static String getRawHeaderByIpAddress(String ipAddress) {
+    public static String getRawHeaderByIpAddress(
+            String ipAddress,
+            Boolean verbose,
+            Boolean showHostname
+    ) {
         String hostname;
         String rawHeaders = "";
 
-        System.out.println("ipAddress: " + ipAddress);
+        if (verbose) {
+            System.out.println("ipAddress: " + ipAddress);
+        }
 
-        try
-        {
+        try {
             DnsLookup dnsLookup = new DnsLookup();
             hostname = dnsLookup.getHostName(ipAddress);
 
-            System.out.println("hostname: " + hostname);
+            if (verbose || showHostname) {
+                System.out.println("-- HOST: " + hostname);
+            }
 
             HttpHeader httpHeader = new HttpHeader();
             rawHeaders = httpHeader.getRawHeaders(hostname);
 
-            System.out.println("rawHeaders: \n" + rawHeaders);
+            if (verbose) {
+                System.out.println("rawHeaders: \n" + rawHeaders);
+            }
         } catch (IOException e) {
             System.out.println("Exiting child thread with IOException !");
             e.printStackTrace();
         }
+
         return rawHeaders;
     }
 }
