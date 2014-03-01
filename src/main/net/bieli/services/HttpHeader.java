@@ -19,6 +19,9 @@ public final class HttpHeader {
 
         try {
             socket = new Socket(hostname, PORT);
+            socket.setSoTimeout(2000);
+            socket.setReceiveBufferSize(5000);
+            socket.setTcpNoDelay(true);
             writer = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
 
             writer.println("GET / HTTP/1.1");
